@@ -9,10 +9,25 @@ const TriviaGame = () => {
   const [isTyping, setIsTyping] = useState(false);
 
   const players = [
-    { name: 'BilboBaggins', avatar: '👻', score: 2000, rank: 1 },
-    { name: 'Barracuda6904', avatar: '🦄', score: 1300, rank: 2 },
-    { name: 'VenasK4', avatar: '🧠', score: 1299, rank: 3 },
-    { name: 'JoeyPotato', avatar: '🐙', score: 950, rank: 4 },
+    {
+      name: 'BilboBaggins',
+      avatar: '/character_default.png',
+      score: 2000,
+      rank: 1,
+    },
+    {
+      name: 'Barracuda6904',
+      avatar: '/character_default.png',
+      score: 1300,
+      rank: 2,
+    },
+    { name: 'VenasK4', avatar: '/character_default.png', score: 1299, rank: 3 },
+    {
+      name: 'JoeyPotato',
+      avatar: '/character_default.png',
+      score: 950,
+      rank: 4,
+    },
   ];
 
   const questions = [
@@ -167,7 +182,13 @@ const TriviaGame = () => {
                 <div className="player-name">{player.name}</div>
                 <div className="rank-badge">{player.rank}</div>
               </div>
-              <div className="player-avatar">{player.avatar}</div>
+              <div className="player-avatar">
+                <img
+                  src={player.avatar}
+                  alt={`${player.name} avatar`}
+                  className="avatar-image"
+                />
+              </div>
               <div className="player-score">
                 {player.score.toLocaleString()} pts
               </div>
