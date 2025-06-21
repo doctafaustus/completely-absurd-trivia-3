@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './TriviaGame.scss';
+import ParticleCanvas from './ParticleCanvas';
 
 const TriviaGame = () => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -198,6 +199,7 @@ const TriviaGame = () => {
 
         <div className="main-content">
           <div className="question-section">
+            <ParticleCanvas particleCount={160} speed={0.13} key="particles" />
             <div className="cat-mascot">🐱</div>
             <div className="question-text">
               <span className="question-visible">{displayedText}</span>
