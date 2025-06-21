@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './TriviaGame.scss';
 import ParticleCanvas from './ParticleCanvas';
+import ScorePanel from './ScorePanel';
 
 const TriviaGame = () => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -8,6 +9,11 @@ const TriviaGame = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [gameStats, setGameStats] = useState({
+    rank: '7/43',
+    score: 1345,
+    accuracy: 50,
+  });
 
   const players = [
     {
@@ -165,11 +171,11 @@ const TriviaGame = () => {
           </div>
         </div>
 
-        <div className="stats-bar">
-          <div className="stat-item">🏆 Score: 1,345</div>
-          <div className="stat-item">📊 Rank: 7/43</div>
-          <div className="stat-item">🎯 Accuracy: 50%</div>
-        </div>
+        <ScorePanel
+          rank={gameStats.rank}
+          score={gameStats.score.toLocaleString()} // Formats numbers with commas
+          accuracy={gameStats.accuracy}
+        />
 
         <div className="players-section">
           {players.map((player, index) => (
