@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './TriviaGame.scss';
 import ParticleCanvas from './ParticleCanvas';
 import ScorePanel from './ScorePanel';
+import { triggerConfetti } from '../utils/confettiEffect';
 
 const TriviaGame = () => {
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -25,6 +26,7 @@ const TriviaGame = () => {
 
     // Start the animation
     setIsP1Celebrating(true);
+    triggerConfetti();
 
     // Set new timeout and store its reference
     const newTimeout = setTimeout(() => {

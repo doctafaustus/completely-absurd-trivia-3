@@ -629,6 +629,23 @@
   }
 }
 
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.confetti-particle {
+  position: absolute;
+  font-size: 15px;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
 // Admin Panel Styles
 .admin-panel {
   background: linear-gradient(
