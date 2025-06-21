@@ -3,8 +3,11 @@ import './TriviaGame.scss';
 import ParticleCanvas from './ParticleCanvas';
 import ScorePanel from './ScorePanel';
 import { triggerConfetti } from '../utils/confettiEffect';
+import StatusBar from './StatusBar';
 
 const TriviaGame = () => {
+  const [statusType, setStatusType] = useState(null); // Default to no status shown
+  const [statusMessage, setStatusMessage] = useState('');
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [hasAnswered, setHasAnswered] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -17,6 +20,26 @@ const TriviaGame = () => {
     score: 1345,
     accuracy: 50,
   });
+
+  const statusMessages = {
+    incorrect: "Incorrect – the correct answer was 'Mercury'",
+    correct: 'Correct! You earned 150 points',
+    waiting: 'Waiting for other players to answer',
+    streak: '3 correct answers in a row! +50% bonus points',
+    timeWarning: '5 seconds left to answer!',
+    bonus: 'First to answer correctly! 200 bonus points added',
+  };
+
+  // Function to set status (called from admin panel or game logic)
+  const setStatus = (type) => {
+    setStatusType(type);
+    setStatusMessage(statusMessages[type] || '');
+  };
+
+  // Clear status
+  const clearStatus = () => {
+    setStatusType(null);
+  };
 
   const triggerCorrectAnimation = () => {
     // Clear any existing timeout first
@@ -174,38 +197,99 @@ const TriviaGame = () => {
 
         <div className="admin-panel">
           <div className="admin-title">🔧 Admin Panel</div>
-          <div className="admin-buttons">
-            <button
-              className={`admin-btn ${
-                currentQuestionIndex === 0 ? 'active' : ''
-              }`}
-              onClick={() => selectQuestion(0)}
-            >
-              Q1
-            </button>
-            <button
-              className={`admin-btn ${
-                currentQuestionIndex === 1 ? 'active' : ''
-              }`}
-              onClick={() => selectQuestion(1)}
-            >
-              Q2
-            </button>
-            <button
-              className={`admin-btn ${
-                currentQuestionIndex === 2 ? 'active' : ''
-              }`}
-              onClick={() => selectQuestion(2)}
-            >
-              Q3
-            </button>
-            {/* ADD THIS NEW BUTTON */}
-            <button
-              className="admin-btn correct-btn"
-              onClick={triggerCorrectAnimation}
-            >
-              ✨ Correct!
-            </button>
+
+          <div className="admin-panel-content">
+            {/* First row - Question controls */}
+            <div className="question-controls">
+              <button
+                className={`admin-btn ${
+                  currentQuestionIndex === 0 ? 'active' : ''
+                }`}
+                onClick={() => selectQuestion(0)}
+              >
+                Q1
+              </button>
+              <button
+                className={`admin-btn ${
+                  currentQuestionIndex === 1 ? 'active' : ''
+                }`}
+                onClick={() => selectQuestion(1)}
+              >
+                Q2
+              </button>
+              <button
+                className={`admin-btn ${
+                  currentQuestionIndex === 2 ? 'active' : ''
+                }`}
+                onClick={() => selectQuestion(2)}
+              >
+                Q3
+              </button>
+              <button
+                className="admin-btn correct-btn"
+                onClick={triggerCorrectAnimation}
+              >
+                ✨ Correct!
+              </button>
+            </div>
+
+            {/* Status controls */}
+            <div className="status-controls-section">
+              <div className="status-controls-label">Status Bar Controls:</div>
+              <div className="status-controls">
+                <button
+                  className={`admin-btn ${
+                    statusType === 'incorrect' ? 'active' : ''
+                  }`}
+                  onClick={() => setStatus('incorrect')}
+                >
+                  Incorrect
+                </button>
+                <button
+                  className={`admin-btn ${
+                    statusType === 'correct' ? 'active' : ''
+                  }`}
+                  onClick={() => setStatus('correct')}
+                >
+                  Correct
+                </button>
+                <button
+                  className={`admin-btn ${
+                    statusType === 'waiting' ? 'active' : ''
+                  }`}
+                  onClick={() => setStatus('waiting')}
+                >
+                  Waiting
+                </button>
+                <button
+                  className={`admin-btn ${
+                    statusType === 'streak' ? 'active' : ''
+                  }`}
+                  onClick={() => setStatus('streak')}
+                >
+                  Streak
+                </button>
+                <button
+                  className={`admin-btn ${
+                    statusType === 'timeWarning' ? 'active' : ''
+                  }`}
+                  onClick={() => setStatus('timeWarning')}
+                >
+                  Time Warning
+                </button>
+                <button
+                  className={`admin-btn ${
+                    statusType === 'bonus' ? 'active' : ''
+                  }`}
+                  onClick={() => setStatus('bonus')}
+                >
+                  Bonus
+                </button>
+                <button className="admin-btn" onClick={clearStatus}>
+                  Hide Status
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -274,10 +358,7 @@ const TriviaGame = () => {
           </div>
         </div>
 
-        <div className="status-bar glass-with-dot">
-          <span className="pulse-dot" />
-          Incorrect – the correct answer was 'bananas'
-        </div>
+        <StatusBar type={statusType} message={statusMessage} />
 
         <div className="answers-section">
           {questions[currentQuestionIndex].answers.map((answer, index) => (

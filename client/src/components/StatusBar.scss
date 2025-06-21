@@ -1,0 +1,230 @@
+/* StatusBar.scss */
+
+/* Common status bar styles */
+.status-bar {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  height: 52px;
+}
+
+/* 1. Incorrect status */
+.status-bar.incorrect {
+  background: rgba(255, 0, 0, 0.12);
+  border: 1px solid rgba(255, 100, 100, 0.4);
+  color: #ff4d4f;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.15);
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  background: #fa5252;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 2. Correct status */
+.status-bar.correct {
+  background: rgba(0, 230, 100, 0.12);
+  border: 1px solid rgba(0, 230, 100, 0.4);
+  color: #00e064;
+  box-shadow: 0 0 20px rgba(0, 230, 100, 0.15);
+}
+
+.pulse-dot-green {
+  width: 7px;
+  height: 7px;
+  background: #00e064;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+/* 3. Waiting status */
+.status-bar.waiting {
+  background: rgba(0, 150, 255, 0.12);
+  border: 1px solid rgba(0, 150, 255, 0.4);
+  color: #0096ff;
+  box-shadow: 0 0 20px rgba(0, 150, 255, 0.15);
+}
+
+.dots-loading {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  margin-left: 8px;
+}
+
+.dots-loading span {
+  width: 8px;
+  height: 8px;
+  margin: 0 3px;
+  background-color: #0096ff;
+  border-radius: 50%;
+  display: inline-block;
+  animation: dots 1.4s infinite ease-in-out both;
+}
+
+.dots-loading span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.dots-loading span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dots {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+/* 4. Streak status */
+.status-bar.streak {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 106, 0, 0.12),
+    rgba(255, 173, 0, 0.12)
+  );
+  border: 1px solid rgba(255, 140, 0, 0.4);
+  color: #ff8c00;
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.15);
+}
+
+.fire {
+  font-size: 20px;
+  animation: burn 1s infinite alternate;
+}
+
+@keyframes burn {
+  from {
+    transform: scale(1);
+    text-shadow: 0 0 8px rgba(255, 140, 0, 0.8);
+  }
+  to {
+    transform: scale(1.2);
+    text-shadow: 0 0 16px rgba(255, 140, 0, 1);
+  }
+}
+
+/* 5. Time warning status */
+.status-bar.time-warning {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 217, 0, 0.12),
+    rgba(255, 173, 0, 0.12)
+  );
+  border: 1px solid rgba(255, 217, 0, 0.4);
+  color: #ffd900;
+  box-shadow: 0 0 20px rgba(255, 217, 0, 0.15);
+}
+
+.pulse-dot-yellow {
+  width: 7px;
+  height: 7px;
+  background: #ffd900;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+/* 6. Bonus points */
+.status-bar.bonus {
+  background: linear-gradient(
+    135deg,
+    rgba(138, 43, 226, 0.12),
+    rgba(180, 90, 255, 0.12)
+  );
+  border: 1px solid rgba(138, 43, 226, 0.4);
+  color: #b45aff;
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.15);
+}
+
+.plus {
+  font-size: 20px;
+  font-weight: bold;
+  animation: pop 0.6s infinite;
+}
+
+@keyframes pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+}
+
+/* Admin Panel Status Controls */
+.admin-status-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 12px;
+}
+
+.admin-subtitle {
+  width: 100%;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+}
+
+/* Color-coded admin buttons */
+.admin-btn[onclick*='incorrect'] {
+  border-left: 3px solid #ff4d4f;
+}
+
+.admin-btn[onclick*='correct'] {
+  border-left: 3px solid #00e064;
+}
+
+.admin-btn[onclick*='waiting'] {
+  border-left: 3px solid #0096ff;
+}
+
+.admin-btn[onclick*='streak'] {
+  border-left: 3px solid #ff8c00;
+}
+
+.admin-btn[onclick*='timeWarning'] {
+  border-left: 3px solid #ffd900;
+}
+
+.admin-btn[onclick*='bonus'] {
+  border-left: 3px solid #b45aff;
+}
+
+.admin-btn[onclick*='clearStatus'] {
+  border-left: 3px solid #9ca3af;
+}
