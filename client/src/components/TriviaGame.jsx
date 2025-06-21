@@ -14,6 +14,8 @@ const TriviaGame = () => {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isP1Celebrating, setIsP1Celebrating] = useState(false);
+  const [isP1Incorrect, setIsP1Incorrect] = useState(false);
+  const [incorrectTimeout, setIncorrectTimeout] = useState(null);
   const [celebrationTimeout, setCelebrationTimeout] = useState(null);
   const [gameStats, setGameStats] = useState({
     rank: '7/43',
@@ -46,6 +48,12 @@ const TriviaGame = () => {
     if (celebrationTimeout) {
       clearTimeout(celebrationTimeout);
     }
+    if (incorrectTimeout) {
+      clearTimeout(incorrectTimeout);
+    }
+
+    // Clear incorrect animation if it's running
+    setIsP1Incorrect(false);
 
     // Start the animation
     setIsP1Celebrating(true);
@@ -58,6 +66,31 @@ const TriviaGame = () => {
     }, 2000);
 
     setCelebrationTimeout(newTimeout);
+  };
+
+  const triggerIncorrectAnimation = () => {
+    // Clear any existing timeout first
+    if (celebrationTimeout) {
+      clearTimeout(celebrationTimeout);
+    }
+    if (incorrectTimeout) {
+      clearTimeout(incorrectTimeout);
+    }
+
+    // Clear celebration animation if it's running
+    setIsP1Celebrating(false);
+
+    // Start the incorrect animation
+    setIsP1Incorrect(true);
+    setStatus('incorrect');
+
+    // Set new timeout and store its reference
+    const newTimeout = setTimeout(() => {
+      setIsP1Incorrect(false);
+      setIncorrectTimeout(null);
+    }, 3000);
+
+    setIncorrectTimeout(newTimeout);
   };
 
   const players = [
@@ -165,8 +198,11 @@ const TriviaGame = () => {
       if (celebrationTimeout) {
         clearTimeout(celebrationTimeout);
       }
+      if (incorrectTimeout) {
+        clearTimeout(incorrectTimeout);
+      }
     };
-  }, [celebrationTimeout]);
+  }, [celebrationTimeout, incorrectTimeout]);
 
   // Admin Panel
   const selectQuestion = (questionIndex) => {
@@ -230,6 +266,12 @@ const TriviaGame = () => {
                 onClick={triggerCorrectAnimation}
               >
                 ✨ Correct!
+              </button>
+              <button
+                className="admin-btn wrong-btn"
+                onClick={triggerIncorrectAnimation}
+              >
+                ❌ Wrong!
               </button>
             </div>
 
@@ -317,7 +359,7 @@ const TriviaGame = () => {
                   alt={`${player.name} avatar`}
                   className={`avatar-image ${
                     index === 0 && isP1Celebrating ? 'celebrating' : ''
-                  }`}
+                  } ${index === 0 && isP1Incorrect ? 'incorrect' : ''}`}
                 />
               </div>
               <div className="player-score">
@@ -326,6 +368,8 @@ const TriviaGame = () => {
             </div>
           ))}
         </div>
+
+        <StatusBar type={statusType} message={statusMessage} />
 
         <div className="main-content">
           <div className="question-section">
@@ -357,8 +401,6 @@ const TriviaGame = () => {
             </div>
           </div>
         </div>
-
-        <StatusBar type={statusType} message={statusMessage} />
 
         <div className="answers-section">
           {questions[currentQuestionIndex].answers.map((answer, index) => (
