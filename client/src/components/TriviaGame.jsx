@@ -9,11 +9,31 @@ const TriviaGame = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isP1Celebrating, setIsP1Celebrating] = useState(false);
+  const [celebrationTimeout, setCelebrationTimeout] = useState(null);
   const [gameStats, setGameStats] = useState({
     rank: '7/43',
     score: 1345,
     accuracy: 50,
   });
+
+  const triggerCorrectAnimation = () => {
+    // Clear any existing timeout first
+    if (celebrationTimeout) {
+      clearTimeout(celebrationTimeout);
+    }
+
+    // Start the animation
+    setIsP1Celebrating(true);
+
+    // Set new timeout and store its reference
+    const newTimeout = setTimeout(() => {
+      setIsP1Celebrating(false);
+      setCelebrationTimeout(null);
+    }, 2000);
+
+    setCelebrationTimeout(newTimeout);
+  };
 
   const players = [
     {
@@ -114,6 +134,15 @@ const TriviaGame = () => {
     return () => clearInterval(timer);
   }, [currentQuestionIndex]);
 
+  useEffect(() => {
+    // Cleanup timeout on component unmount
+    return () => {
+      if (celebrationTimeout) {
+        clearTimeout(celebrationTimeout);
+      }
+    };
+  }, [celebrationTimeout]);
+
   // Admin Panel
   const selectQuestion = (questionIndex) => {
     setCurrentQuestionIndex(questionIndex);
@@ -168,6 +197,13 @@ const TriviaGame = () => {
             >
               Q3
             </button>
+            {/* ADD THIS NEW BUTTON */}
+            <button
+              className="admin-btn correct-btn"
+              onClick={triggerCorrectAnimation}
+            >
+              ✨ Correct!
+            </button>
           </div>
         </div>
 
@@ -193,7 +229,9 @@ const TriviaGame = () => {
                 <img
                   src={player.avatar}
                   alt={`${player.name} avatar`}
-                  className="avatar-image"
+                  className={`avatar-image ${
+                    index === 0 && isP1Celebrating ? 'celebrating' : ''
+                  }`}
                 />
               </div>
               <div className="player-score">

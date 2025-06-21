@@ -594,6 +594,41 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+@keyframes happyBob {
+  0%,
+  100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(8px) scale(1.05);
+  }
+}
+
+// Add this class for the celebrating avatar
+.avatar-image.celebrating {
+  animation: happyBob 0.3s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+// Add styles for the correct button
+.admin-btn.correct-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 136, 0.3),
+    rgba(0, 255, 136, 0.1)
+  ) !important;
+  border-color: #00ff88 !important;
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.4) !important;
+
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 255, 136, 0.4),
+      rgba(0, 255, 136, 0.15)
+    ) !important;
+  }
+}
+
 // Admin Panel Styles
 .admin-panel {
   background: linear-gradient(
