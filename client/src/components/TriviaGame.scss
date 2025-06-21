@@ -166,6 +166,13 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 20px var(--accent-color);
   }
 }
+
+.player-card.answered {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 20px var(--accent-color);
+}
+
 @keyframes intenseGridGlow {
   0% {
     opacity: 0.8;
@@ -175,93 +182,6 @@
     opacity: 1;
     filter: blur(0.3px) brightness(1.6);
   }
-}
-
-.player-avatar {
-  // ... existing styles ...
-
-  // Enhanced glow effect for answered state
-  .player-card.answered & {
-    &::before {
-      background: 
-        // More intense grid lines when answered
-        repeating-linear-gradient(
-          90deg,
-          transparent 0px,
-          transparent 8px,
-          rgba(0, 255, 255, 0.4) 8px,
-          // Increased from 0.15
-          rgba(0, 255, 255, 0.4) 9px,
-          transparent 9px,
-          transparent 16px
-        ),
-        repeating-linear-gradient(
-          0deg,
-          transparent 0px,
-          transparent 8px,
-          rgba(255, 255, 255, 0.3) 8px,
-          // Increased from 0.1
-          rgba(255, 255, 255, 0.3) 9px,
-          transparent 9px,
-          transparent 16px
-        ),
-        // Brighter radial gradient
-        radial-gradient(
-            ellipse at center,
-            rgba(255, 255, 255, 0.2) 0%,
-            // Increased from 0.1
-            rgba(255, 255, 255, 0.1) 50%,
-            // Increased from 0.05
-            rgba(0, 0, 0, 0.1) 100%
-          );
-
-      // Enhanced animation for answered state
-      animation: intenseGridGlow 2s ease-in-out infinite alternate;
-      filter: blur(0.5px) brightness(1.3); // Add brightness boost
-    }
-
-    &::after {
-      // Make the border glow much more intense
-      border: 2px solid rgba(var(--accent-color-rgb), 0.8); // Increased from 0.3
-      box-shadow: inset 0 0 30px rgba(var(--accent-color-rgb), 0.3),
-        // Increased from 0.1
-        0 0 25px rgba(var(--accent-color-rgb), 0.6),
-        // Increased from 0.2
-        0 0 50px rgba(var(--accent-color-rgb), 0.3); // Add extra outer glow
-    }
-  }
-}
-
-.player-header {
-  padding: 16px 20px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.player-name {
-  font-weight: 700;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.rank-badge {
-  background: var(--accent-gradient);
-  color: white;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .player-avatar {
@@ -337,15 +257,98 @@
       0 0 10px rgba(var(--accent-color-rgb), 0.2);
   }
 
+  // Enhanced glow effect for answered state
+  .player-card.answered & {
+    &::before {
+      background: 
+        // More intense grid lines when answered
+        repeating-linear-gradient(
+          90deg,
+          transparent 0px,
+          transparent 8px,
+          rgba(0, 255, 255, 0.4) 8px,
+          // Increased from 0.15
+          rgba(0, 255, 255, 0.4) 9px,
+          transparent 9px,
+          transparent 16px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent 0px,
+          transparent 8px,
+          rgba(255, 255, 255, 0.3) 8px,
+          // Increased from 0.1
+          rgba(255, 255, 255, 0.3) 9px,
+          transparent 9px,
+          transparent 16px
+        ),
+        // Brighter radial gradient
+        radial-gradient(
+            ellipse at center,
+            rgba(255, 255, 255, 0.2) 0%,
+            // Increased from 0.1
+            rgba(255, 255, 255, 0.1) 50%,
+            // Increased from 0.05
+            rgba(0, 0, 0, 0.1) 100%
+          );
+
+      // Enhanced animation for answered state
+      animation: intenseGridGlow 2s ease-in-out infinite alternate;
+      filter: blur(0.5px) brightness(1.3); // Add brightness boost
+    }
+
+    &::after {
+      // Make the border glow much more intense
+      border: 2px solid rgba(var(--accent-color-rgb), 0.8); // Increased from 0.3
+      box-shadow: inset 0 0 30px rgba(var(--accent-color-rgb), 0.3),
+        // Increased from 0.1
+        0 0 25px rgba(var(--accent-color-rgb), 0.6),
+        // Increased from 0.2
+        0 0 50px rgba(var(--accent-color-rgb), 0.3); // Add extra outer glow
+    }
+  }
+
   .avatar-image {
     max-width: 120px;
     max-height: 120px;
     width: auto;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
     position: relative;
     z-index: 2;
+
+    // Enhanced depth effects
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2)) // Reduced from 0.6
+      drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1)) // Reduced from 0.4
+      drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3)) // Reduced from 0.8
+      contrast(1.1) saturate(1.1);
+
+    // Add a subtle outline/rim light effect
+    &::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(0, 0, 0, 0.1) 100%
+      );
+      border-radius: 50%;
+      z-index: -1;
+      opacity: 0.7;
+      filter: blur(1px);
+    }
+
+    // Add subtle transform for more 3D feel
+    transform: translateZ(0) perspective(100px) rotateX(-2deg);
+    transform-style: preserve-3d;
+
+    // Enhanced interaction
+    transition: all 0.3s ease;
   }
 }
 
@@ -357,6 +360,38 @@
   100% {
     opacity: 1;
   }
+}
+
+.player-header {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.rank-badge {
+  background: var(--accent-gradient);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .player-score {
@@ -400,6 +435,10 @@
   line-height: 1.3;
   letter-spacing: -0.01em;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.question-hidden {
+  opacity: 0; // Hide the text but preserve the space
 }
 
 .cat-mascot {
@@ -587,20 +626,6 @@
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.question-text {
-  font-size: 28px;
-  font-weight: 700;
-  color: white;
-  text-align: center;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.question-hidden {
-  opacity: 0; // Hide the text but preserve the space
 }
 
 // Admin Panel Styles
