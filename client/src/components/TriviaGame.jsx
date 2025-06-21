@@ -6,8 +6,18 @@ import { triggerConfetti } from '../utils/confettiEffect';
 import StatusBar from './StatusBar';
 
 const TriviaGame = () => {
-  const [statusType, setStatusType] = useState(null); // Default to no status shown
-  const [statusMessage, setStatusMessage] = useState('');
+  const statusMessages = {
+    incorrect: "Incorrect – the correct answer was 'Mercury'",
+    correct: 'Correct! You earned 150 points',
+    waiting: 'Waiting for other players to answer',
+    streak: '3 correct answers in a row! +50% bonus points',
+    timeWarning: '5 seconds left to answer!',
+    bonus: 'First to answer correctly! 200 bonus points added',
+  };
+
+  // Initialize with waiting status
+  const [statusType, setStatusType] = useState('waiting');
+  const [statusMessage, setStatusMessage] = useState(statusMessages.waiting);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [hasAnswered, setHasAnswered] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -23,15 +33,6 @@ const TriviaGame = () => {
     accuracy: 50,
   });
 
-  const statusMessages = {
-    incorrect: "Incorrect – the correct answer was 'Mercury'",
-    correct: 'Correct! You earned 150 points',
-    waiting: 'Waiting for other players to answer',
-    streak: '3 correct answers in a row! +50% bonus points',
-    timeWarning: '5 seconds left to answer!',
-    bonus: 'First to answer correctly! 200 bonus points added',
-  };
-
   // Function to set status (called from admin panel or game logic)
   const setStatus = (type) => {
     setStatusType(type);
@@ -40,7 +41,7 @@ const TriviaGame = () => {
 
   // Clear status
   const clearStatus = () => {
-    setStatusType(null);
+    setStatus('waiting');
   };
 
   const triggerCorrectAnimation = () => {
@@ -88,6 +89,8 @@ const TriviaGame = () => {
     const newTimeout = setTimeout(() => {
       setIsP1Incorrect(false);
       setIncorrectTimeout(null);
+      // Transition to waiting after the animation
+      setStatus('waiting');
     }, 3000);
 
     setIncorrectTimeout(newTimeout);
@@ -203,6 +206,15 @@ const TriviaGame = () => {
       }
     };
   }, [celebrationTimeout, incorrectTimeout]);
+
+  useEffect(() => {
+    // This ensures the status bar is visible on first render
+    // You can remove this if you've fixed the initialization in StatusBar.jsx
+    if (!statusType) {
+      setStatusType('waiting');
+      setStatusMessage(statusMessages.waiting);
+    }
+  }, []);
 
   // Admin Panel
   const selectQuestion = (questionIndex) => {

@@ -1,230 +1,218 @@
-/* StatusBar.scss */
-
-/* Common status bar styles */
 .status-bar {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 500;
-  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  height: 52px;
+  gap: 12px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin: 10px 0;
+  height: 50px;
+
+  // Add the transition for smooth color changes only
+  // Removed transform transitions to avoid movement
+  transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease,
+    box-shadow 0.4s ease, opacity 0.3s ease;
+
+  opacity: 1;
+
+  // Animation states - removed transform changes
+  &.entering {
+    opacity: 0;
+  }
+
+  &.exiting {
+    opacity: 0;
+  }
+
+  // Pulse animation without scaling (just glow)
+  &.pulse {
+    animation: status-pulse-glow-only 0.8s ease-in-out;
+    // Make animation immediately cancellable when status changes
+    animation-play-state: running;
+  }
+
+  // Status type styling
+  &.incorrect {
+    background: rgba(255, 90, 95, 0.15);
+    border: 1px solid rgba(255, 90, 95, 0.3);
+    color: #ff5a5f;
+  }
+
+  &.correct {
+    background: rgba(0, 184, 148, 0.15);
+    border: 1px solid rgba(0, 184, 148, 0.3);
+    color: #00b894;
+  }
+
+  &.waiting {
+    background: rgba(116, 185, 255, 0.15);
+    border: 1px solid rgba(116, 185, 255, 0.3);
+    color: #74b9ff;
+  }
+
+  &.streak {
+    background: rgba(253, 203, 110, 0.15);
+    border: 1px solid rgba(253, 203, 110, 0.3);
+    color: #fdcb6e;
+  }
+
+  &.time-warning {
+    background: rgba(255, 234, 167, 0.15);
+    border: 1px solid rgba(255, 234, 167, 0.3);
+    color: #ffea9f;
+  }
+
+  &.bonus {
+    background: rgba(162, 155, 254, 0.15);
+    border: 1px solid rgba(162, 155, 254, 0.3);
+    color: #a29bfe;
+  }
 }
 
-/* 1. Incorrect status */
-.status-bar.incorrect {
-  background: rgba(255, 0, 0, 0.12);
-  border: 1px solid rgba(255, 100, 100, 0.4);
-  color: #ff4d4f;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.15);
-}
-
-.pulse-dot {
-  width: 7px;
-  height: 7px;
-  background: #fa5252;
-  border-radius: 50%;
-  animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
+// Pulse animation with glow only (no scaling)
+@keyframes status-pulse-glow-only {
   0% {
-    transform: scale(1);
-    opacity: 1;
+    filter: brightness(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
   }
   50% {
-    transform: scale(1.5);
-    opacity: 0.5;
+    filter: brightness(1.1);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 0 0 8px currentColor;
   }
   100% {
-    transform: scale(1);
+    filter: brightness(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Dots loading animation
+.dots-loading {
+  display: flex;
+  gap: 4px;
+
+  span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+    opacity: 0.7;
+    animation: dots-pulse 1.4s infinite ease-in-out;
+
+    &:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  }
+}
+
+@keyframes dots-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
     opacity: 1;
   }
 }
 
-/* 2. Correct status */
-.status-bar.correct {
-  background: rgba(0, 230, 100, 0.12);
-  border: 1px solid rgba(0, 230, 100, 0.4);
-  color: #00e064;
-  box-shadow: 0 0 20px rgba(0, 230, 100, 0.15);
+// Pulse dots
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff5a5f;
+  animation: steady-pulse-red 1.5s infinite;
 }
 
 .pulse-dot-green {
-  width: 7px;
-  height: 7px;
-  background: #00e064;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  animation: pulse 1s infinite;
-}
-
-/* 3. Waiting status */
-.status-bar.waiting {
-  background: rgba(0, 150, 255, 0.12);
-  border: 1px solid rgba(0, 150, 255, 0.4);
-  color: #0096ff;
-  box-shadow: 0 0 20px rgba(0, 150, 255, 0.15);
-}
-
-.dots-loading {
-  display: inline-flex;
-  align-items: center;
-  height: 20px;
-  margin-left: 8px;
-}
-
-.dots-loading span {
-  width: 8px;
-  height: 8px;
-  margin: 0 3px;
-  background-color: #0096ff;
-  border-radius: 50%;
-  display: inline-block;
-  animation: dots 1.4s infinite ease-in-out both;
-}
-
-.dots-loading span:nth-child(1) {
-  animation-delay: -0.32s;
-}
-
-.dots-loading span:nth-child(2) {
-  animation-delay: -0.16s;
-}
-
-@keyframes dots {
-  0%,
-  80%,
-  100% {
-    transform: scale(0);
-  }
-  40% {
-    transform: scale(1);
-  }
-}
-
-/* 4. Streak status */
-.status-bar.streak {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 106, 0, 0.12),
-    rgba(255, 173, 0, 0.12)
-  );
-  border: 1px solid rgba(255, 140, 0, 0.4);
-  color: #ff8c00;
-  box-shadow: 0 0 20px rgba(255, 140, 0, 0.15);
-}
-
-.fire {
-  font-size: 20px;
-  animation: burn 1s infinite alternate;
-}
-
-@keyframes burn {
-  from {
-    transform: scale(1);
-    text-shadow: 0 0 8px rgba(255, 140, 0, 0.8);
-  }
-  to {
-    transform: scale(1.2);
-    text-shadow: 0 0 16px rgba(255, 140, 0, 1);
-  }
-}
-
-/* 5. Time warning status */
-.status-bar.time-warning {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 217, 0, 0.12),
-    rgba(255, 173, 0, 0.12)
-  );
-  border: 1px solid rgba(255, 217, 0, 0.4);
-  color: #ffd900;
-  box-shadow: 0 0 20px rgba(255, 217, 0, 0.15);
+  background: #00b894;
+  animation: steady-pulse-green 1.5s infinite;
 }
 
 .pulse-dot-yellow {
-  width: 7px;
-  height: 7px;
-  background: #ffd900;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  animation: pulse 1s infinite;
+  background: #fdcb6e;
+  animation: steady-pulse-yellow 1.5s infinite;
 }
 
-/* 6. Bonus points */
-.status-bar.bonus {
-  background: linear-gradient(
-    135deg,
-    rgba(138, 43, 226, 0.12),
-    rgba(180, 90, 255, 0.12)
-  );
-  border: 1px solid rgba(138, 43, 226, 0.4);
-  color: #b45aff;
-  box-shadow: 0 0 20px rgba(138, 43, 226, 0.15);
-}
-
-.plus {
-  font-size: 20px;
-  font-weight: bold;
-  animation: pop 0.6s infinite;
-}
-
-@keyframes pop {
+@keyframes steady-pulse-red {
   0%,
   100% {
-    transform: scale(1);
+    opacity: 0.6;
+    box-shadow: 0 0 8px rgba(255, 90, 95, 0.6);
   }
   50% {
-    transform: scale(1.4);
+    opacity: 1;
+    box-shadow: 0 0 12px rgba(255, 90, 95, 1);
   }
 }
 
-/* Admin Panel Status Controls */
-.admin-status-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 12px;
+@keyframes steady-pulse-green {
+  0%,
+  100% {
+    opacity: 0.6;
+    box-shadow: 0 0 8px rgba(0, 184, 148, 0.6);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 12px rgba(0, 184, 148, 1);
+  }
 }
 
-.admin-subtitle {
-  width: 100%;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 8px;
+@keyframes steady-pulse-yellow {
+  0%,
+  100% {
+    opacity: 0.6;
+    box-shadow: 0 0 8px rgba(253, 203, 110, 0.6);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 12px rgba(253, 203, 110, 1);
+  }
 }
 
-/* Color-coded admin buttons */
-.admin-btn[onclick*='incorrect'] {
-  border-left: 3px solid #ff4d4f;
+// Fire animation for streak
+.fire {
+  font-size: 18px;
+  animation: fire-flicker 1s infinite alternate;
 }
 
-.admin-btn[onclick*='correct'] {
-  border-left: 3px solid #00e064;
+@keyframes fire-flicker {
+  0% {
+    text-shadow: 0 0 8px rgba(253, 203, 110, 0.7);
+  }
+  50% {
+    text-shadow: 0 0 12px rgba(253, 203, 110, 1);
+  }
+  100% {
+    text-shadow: 0 0 8px rgba(253, 203, 110, 0.7);
+  }
 }
 
-.admin-btn[onclick*='waiting'] {
-  border-left: 3px solid #0096ff;
+// Plus icon animation for bonus
+.plus {
+  font-size: 18px;
+  font-weight: bold;
+  animation: plus-pulse 0.6s infinite alternate;
 }
 
-.admin-btn[onclick*='streak'] {
-  border-left: 3px solid #ff8c00;
-}
-
-.admin-btn[onclick*='timeWarning'] {
-  border-left: 3px solid #ffd900;
-}
-
-.admin-btn[onclick*='bonus'] {
-  border-left: 3px solid #b45aff;
-}
-
-.admin-btn[onclick*='clearStatus'] {
-  border-left: 3px solid #9ca3af;
+@keyframes plus-pulse {
+  0% {
+    text-shadow: 0 0 5px rgba(162, 155, 254, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(162, 155, 254, 0.8);
+  }
 }
