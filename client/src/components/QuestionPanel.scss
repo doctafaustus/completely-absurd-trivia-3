@@ -46,3 +46,43 @@
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
   z-index: 10;
 }
+
+.status-bar.glass-with-dot {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 100, 100, 0.4);
+  backdrop-filter: blur(6px);
+  color: #ff4d4f;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 15px;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%; /* Make it full width */
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: #fa5252;
+  border-radius: 50%;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

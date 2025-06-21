@@ -274,6 +274,11 @@ const TriviaGame = () => {
           </div>
         </div>
 
+        <div className="status-bar glass-with-dot">
+          <span className="pulse-dot" />
+          Incorrect – the correct answer was 'bananas'
+        </div>
+
         <div className="answers-section">
           {questions[currentQuestionIndex].answers.map((answer, index) => (
             <div
