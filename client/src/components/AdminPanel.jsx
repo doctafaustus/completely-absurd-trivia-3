@@ -47,18 +47,6 @@ const AdminPanel = () => {
             Q3
           </button>
           <button
-            className="admin-btn correct-btn"
-            onClick={triggerCorrectAnimation}
-          >
-            ✨ Correct!
-          </button>
-          <button
-            className="admin-btn wrong-btn"
-            onClick={triggerIncorrectAnimation}
-          >
-            ❌ Wrong!
-          </button>
-          <button
             className="admin-btn evaluate-btn"
             onClick={() => evaluateAnswer()}
           >
