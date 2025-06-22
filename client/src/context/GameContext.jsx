@@ -20,6 +20,10 @@ export const GameProvider = ({ children }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
+  // Answer feedback state
+  const [correctAnswer, setCorrectAnswer] = useState(3); // Index of correct answer (default to Mercury in first question)
+  const [showAnswerResult, setShowAnswerResult] = useState(false);
+
   // Animation state
   const [isP1Celebrating, setIsP1Celebrating] = useState(false);
   const [isP1Incorrect, setIsP1Incorrect] = useState(false);
@@ -45,6 +49,9 @@ export const GameProvider = ({ children }) => {
   };
 
   const triggerCorrectAnimation = () => {
+    // Show the correct answer
+    setShowAnswerResult(true);
+
     // Clear any existing timeout first
     if (celebrationTimeout) {
       clearTimeout(celebrationTimeout);
@@ -65,13 +72,16 @@ export const GameProvider = ({ children }) => {
     const newTimeout = setTimeout(() => {
       setIsP1Celebrating(false);
       setCelebrationTimeout(null);
-      setStatus('waiting');
+      // Don't reset to waiting state - keep showing the correct answer
     }, 2000);
 
     setCelebrationTimeout(newTimeout);
   };
 
   const triggerIncorrectAnimation = () => {
+    // Show the correct answer
+    setShowAnswerResult(true);
+
     // Clear any existing timeout first
     if (celebrationTimeout) {
       clearTimeout(celebrationTimeout);
@@ -91,11 +101,28 @@ export const GameProvider = ({ children }) => {
     const newTimeout = setTimeout(() => {
       setIsP1Incorrect(false);
       setIncorrectTimeout(null);
-      // Transition to waiting after the animation
-      setStatus('waiting');
+      // Don't reset to waiting state - keep showing the correct answer
     }, 3000);
 
     setIncorrectTimeout(newTimeout);
+  };
+
+  const evaluateAnswer = () => {
+    if (selectedAnswer === null) {
+      // No answer selected yet
+      setStatus('waiting');
+      return;
+    }
+
+    setShowAnswerResult(true);
+
+    if (selectedAnswer === correctAnswer) {
+      // Correct answer selected
+      triggerCorrectAnimation();
+    } else {
+      // Incorrect answer selected
+      triggerIncorrectAnimation();
+    }
   };
 
   // Typewriter effect for questions
@@ -143,9 +170,19 @@ export const GameProvider = ({ children }) => {
     setCurrentQuestionIndex(questionIndex);
     setSelectedAnswer(null);
     setHasAnswered(false);
+    setShowAnswerResult(false);
+    setStatus('waiting');
+
+    // Update correct answer based on question
+    // In a real app, this would come from your question data
+    if (questionIndex === 0) setCorrectAnswer(3); // Mercury
+    else if (questionIndex === 1) setCorrectAnswer(1); // Whale
+    else setCorrectAnswer(0); // Nothing special
   };
 
   const handleAnswerSelect = (index) => {
+    if (showAnswerResult) return; // Prevent selecting after result is shown
+
     if (selectedAnswer === index) {
       // If clicking the already selected answer, deselect it
       setSelectedAnswer(null);
@@ -157,9 +194,37 @@ export const GameProvider = ({ children }) => {
     }
   };
 
+  const resetAnswers = () => {
+    // Reset selection state
+    setSelectedAnswer(null);
+    setHasAnswered(false);
+
+    // Hide answer results
+    setShowAnswerResult(false);
+
+    // Reset animations and celebrations
+    setIsP1Celebrating(false);
+    setIsP1Incorrect(false);
+
+    // Clear any existing timeouts
+    if (celebrationTimeout) {
+      clearTimeout(celebrationTimeout);
+      setCelebrationTimeout(null);
+    }
+    if (incorrectTimeout) {
+      clearTimeout(incorrectTimeout);
+      setIncorrectTimeout(null);
+    }
+
+    // Reset status to waiting
+    setStatus('waiting');
+  };
+
   // Value to be provided to consumers
   const value = {
     // State
+    evaluateAnswer,
+
     statusType,
     statusMessage,
     selectedAnswer,
@@ -172,6 +237,8 @@ export const GameProvider = ({ children }) => {
     gameStats,
     players,
     questions,
+    correctAnswer,
+    showAnswerResult,
 
     // Functions
     setStatus,
@@ -180,6 +247,7 @@ export const GameProvider = ({ children }) => {
     triggerIncorrectAnimation,
     selectQuestion,
     handleAnswerSelect,
+    resetAnswers,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

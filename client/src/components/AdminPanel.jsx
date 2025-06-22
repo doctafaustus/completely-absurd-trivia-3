@@ -9,8 +9,10 @@ const AdminPanel = () => {
     selectQuestion,
     setStatus,
     clearStatus,
+    evaluateAnswer,
     triggerCorrectAnimation,
     triggerIncorrectAnimation,
+    resetAnswers,
   } = useGameContext();
 
   return (
@@ -55,6 +57,15 @@ const AdminPanel = () => {
             onClick={triggerIncorrectAnimation}
           >
             ❌ Wrong!
+          </button>
+          <button
+            className="admin-btn evaluate-btn"
+            onClick={() => evaluateAnswer()}
+          >
+            🔍 Evaluate Answer
+          </button>
+          <button className="admin-btn reset-btn" onClick={resetAnswers}>
+            🔄 Reset Answers
           </button>
         </div>
 

@@ -176,3 +176,39 @@
 .status-controls .admin-btn[onclick*='clearStatus']::before {
   background-color: #9ca3af;
 }
+
+.admin-btn.evaluate-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(64, 150, 255, 0.3),
+    rgba(64, 150, 255, 0.1)
+  ) !important;
+  border-color: #4096ff !important;
+  box-shadow: 0 0 16px rgba(64, 150, 255, 0.4) !important;
+
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(64, 150, 255, 0.4),
+      rgba(64, 150, 255, 0.15)
+    ) !important;
+  }
+}
+
+.admin-btn.reset-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(130, 130, 130, 0.3),
+    rgba(100, 100, 100, 0.1)
+  ) !important;
+  border-color: #828282 !important;
+  box-shadow: 0 0 16px rgba(130, 130, 130, 0.4) !important;
+
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(130, 130, 130, 0.4),
+      rgba(100, 100, 100, 0.15)
+    ) !important;
+  }
+}
