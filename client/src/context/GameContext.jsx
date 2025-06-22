@@ -23,6 +23,7 @@ export const GameProvider = ({ children }) => {
   // Answer feedback state
   const [correctAnswer, setCorrectAnswer] = useState(3); // Index of correct answer (default to Mercury in first question)
   const [showAnswerResult, setShowAnswerResult] = useState(false);
+  const [playerOneAnswerState, setPlayerOneAnswerState] = useState(null); // null, 'correct' or 'incorrect'
 
   // Animation state
   const [isP1Celebrating, setIsP1Celebrating] = useState(false);
@@ -49,9 +50,6 @@ export const GameProvider = ({ children }) => {
   };
 
   const triggerCorrectAnimation = () => {
-    // Show the correct answer
-    setShowAnswerResult(true);
-
     // Clear any existing timeout first
     if (celebrationTimeout) {
       clearTimeout(celebrationTimeout);
@@ -79,9 +77,6 @@ export const GameProvider = ({ children }) => {
   };
 
   const triggerIncorrectAnimation = () => {
-    // Show the correct answer
-    setShowAnswerResult(true);
-
     // Clear any existing timeout first
     if (celebrationTimeout) {
       clearTimeout(celebrationTimeout);
@@ -116,13 +111,49 @@ export const GameProvider = ({ children }) => {
 
     setShowAnswerResult(true);
 
-    if (selectedAnswer === correctAnswer) {
-      // Correct answer selected
+    // Determine if player one got it right or wrong
+    const isCorrect = selectedAnswer === correctAnswer;
+
+    // Set player one's answer state
+    setPlayerOneAnswerState(isCorrect ? 'correct' : 'incorrect');
+
+    // Trigger appropriate animation
+    if (isCorrect) {
       triggerCorrectAnimation();
     } else {
-      // Incorrect answer selected
       triggerIncorrectAnimation();
     }
+  };
+
+  const resetAnswers = () => {
+    console.log('Reset answers function called');
+
+    // Reset player answer state
+    setPlayerOneAnswerState(null);
+
+    // Reset selection state
+    setSelectedAnswer(null);
+    setHasAnswered(false);
+
+    // Hide answer results
+    setShowAnswerResult(false);
+
+    // Reset animations and celebrations
+    setIsP1Celebrating(false);
+    setIsP1Incorrect(false);
+
+    // Clear any existing timeouts
+    if (celebrationTimeout) {
+      clearTimeout(celebrationTimeout);
+      setCelebrationTimeout(null);
+    }
+    if (incorrectTimeout) {
+      clearTimeout(incorrectTimeout);
+      setIncorrectTimeout(null);
+    }
+
+    // Reset status to waiting
+    setStatus('waiting');
   };
 
   // Typewriter effect for questions
@@ -171,6 +202,7 @@ export const GameProvider = ({ children }) => {
     setSelectedAnswer(null);
     setHasAnswered(false);
     setShowAnswerResult(false);
+    setPlayerOneAnswerState(null);
     setStatus('waiting');
 
     // Update correct answer based on question
@@ -194,37 +226,9 @@ export const GameProvider = ({ children }) => {
     }
   };
 
-  const resetAnswers = () => {
-    // Reset selection state
-    setSelectedAnswer(null);
-    setHasAnswered(false);
-
-    // Hide answer results
-    setShowAnswerResult(false);
-
-    // Reset animations and celebrations
-    setIsP1Celebrating(false);
-    setIsP1Incorrect(false);
-
-    // Clear any existing timeouts
-    if (celebrationTimeout) {
-      clearTimeout(celebrationTimeout);
-      setCelebrationTimeout(null);
-    }
-    if (incorrectTimeout) {
-      clearTimeout(incorrectTimeout);
-      setIncorrectTimeout(null);
-    }
-
-    // Reset status to waiting
-    setStatus('waiting');
-  };
-
   // Value to be provided to consumers
   const value = {
     // State
-    evaluateAnswer,
-
     statusType,
     statusMessage,
     selectedAnswer,
@@ -239,6 +243,7 @@ export const GameProvider = ({ children }) => {
     questions,
     correctAnswer,
     showAnswerResult,
+    playerOneAnswerState,
 
     // Functions
     setStatus,
@@ -247,6 +252,7 @@ export const GameProvider = ({ children }) => {
     triggerIncorrectAnimation,
     selectQuestion,
     handleAnswerSelect,
+    evaluateAnswer,
     resetAnswers,
   };
 
