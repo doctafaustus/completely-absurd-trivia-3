@@ -35,8 +35,6 @@ const TriviaGameContent = () => {
         </div>
 
         <AnswerOptions />
-
-        <div className="feedback-text">💬 "Bold pick. Wrong... but bold."</div>
       </div>
     </div>
   );

@@ -43,7 +43,7 @@
 .game-container {
   width: 1200px;
   display: grid;
-  grid-template-rows: auto auto auto auto auto;
+  grid-template-rows: auto 150px 60px 231px auto;
   gap: 24px;
   min-height: calc(100vh - 48px);
 }
