@@ -24,8 +24,8 @@ const PlayersSection = () => {
           index === 2
             ? {
                 backgroundImage:
-                  "url('https://i.ibb.co/yn35DtCV/Screenshot-20.jpg')",
-                backgroundSize: 'contain',
+                  "url('https://i.ibb.co/S4QLc1NM/player-banner-example.jpg')",
+                backgroundSize: 'auto',
                 backgroundPosition: 'center right',
                 backgroundRepeat: 'no-repeat',
               }
