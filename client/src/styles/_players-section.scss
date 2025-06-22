@@ -302,6 +302,11 @@
             rgba(0, 0, 0, 0.1) 100%
           );
       animation: correctGridGlow 2s ease-in-out infinite alternate;
+      background-size: 16px 16px, 16px 16px, 100% 100%;
+
+      /* Combine diagonal movement with glow effect */
+      animation: diagonalGridMotion 0.8s infinite linear,
+        correctGridGlow 2s infinite alternate ease-in-out;
     }
   }
 
@@ -487,5 +492,14 @@
   30%,
   70% {
     transform: translateY(5px) rotate(-4deg);
+  }
+}
+
+@keyframes diagonalGridMotion {
+  0% {
+    background-position: 0 0, 0 0, center center;
+  }
+  100% {
+    background-position: -16px -16px, -16px -16px, center center;
   }
 }
