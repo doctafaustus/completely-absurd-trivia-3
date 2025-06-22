@@ -8,7 +8,6 @@ const AdminPanel = () => {
     currentQuestionIndex,
     selectQuestion,
     setStatus,
-    clearStatus,
     evaluateAnswer,
     resetAnswers,
     startTimer,

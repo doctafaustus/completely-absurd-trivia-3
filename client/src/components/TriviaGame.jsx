@@ -1,6 +1,6 @@
-import './TriviaGame.scss';
+import '../styles/_trivia-game.scss';
+
 import ScorePanel from './ScorePanel';
-import StatusBar from './StatusBar';
 import AdminPanel from './AdminPanel';
 import PlayersSection from './PlayersSection';
 import QuestionPanel from './QuestionPanel';
@@ -28,8 +28,6 @@ const TriviaGameContent = () => {
         />
 
         <PlayersSection />
-
-        <StatusBar type={statusType} message={statusMessage} />
 
         <div className="main-content">
           <QuestionPanel />

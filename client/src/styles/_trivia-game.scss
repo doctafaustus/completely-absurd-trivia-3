@@ -9,12 +9,12 @@
 .trivia-game {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
-  min-width: 1200px; // Fixed desktop width
+  min-width: 1200px;
   width: 100vw;
   padding: 24px;
   color: white;
   position: relative;
-  overflow-x: auto; // Allow horizontal scroll on smaller screens
+  overflow-x: auto;
   display: flex;
   justify-content: center;
 

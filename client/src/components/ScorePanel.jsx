@@ -1,5 +1,4 @@
-import React from 'react';
-import './ScorePanel.scss';
+import '../styles/_score-panel.scss';
 
 const ScorePanel = ({ rank, score, accuracy }) => {
   return (
