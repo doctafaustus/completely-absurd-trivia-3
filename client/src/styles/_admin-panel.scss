@@ -1,0 +1,178 @@
+.admin-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  margin-bottom: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.admin-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-panel-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6px;
+}
+
+.question-controls {
+  display: flex;
+  justify-content: flex-start;
+  gap: 4px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.status-controls-section {
+  width: 100%;
+}
+
+.status-controls-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 4px;
+}
+
+.status-controls {
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 4px;
+  width: 100%;
+}
+
+.status-controls .admin-btn[onclick*='clearStatus'] {
+  grid-column: 1 / span 3;
+}
+
+.admin-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 5px 4px;
+  color: white;
+  font-weight: 500;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+/* Button hover state */
+.admin-btn:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.08)
+  );
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Active state for buttons */
+.admin-btn.active {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 212, 255, 0.3),
+    rgba(0, 212, 255, 0.1)
+  );
+  border-color: #00d4ff;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.4);
+}
+
+/* Special styling for the correct button */
+.admin-btn.correct-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 255, 136, 0.3),
+    rgba(0, 255, 136, 0.1)
+  ) !important;
+  border-color: #00ff88 !important;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.4) !important;
+}
+
+.admin-btn.wrong-btn {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 77, 79, 0.3),
+    rgba(255, 77, 79, 0.1)
+  ) !important;
+  border-color: #ff4d4f !important;
+  box-shadow: 0 0 12px rgba(255, 77, 79, 0.4) !important;
+
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 77, 79, 0.4),
+      rgba(255, 77, 79, 0.15)
+    ) !important;
+  }
+}
+
+/* Color indicators at the top of buttons */
+.status-controls .admin-btn {
+  position: relative;
+  padding-top: 7px; /* Extra space for the color indicator */
+}
+
+.status-controls .admin-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 1px 1px 0 0;
+}
+
+.status-controls .admin-btn[onclick*='incorrect']::before {
+  background-color: #ff4d4f;
+}
+
+.status-controls .admin-btn[onclick*='correct']::before {
+  background-color: #00e064;
+}
+
+.status-controls .admin-btn[onclick*='waiting']::before {
+  background-color: #0096ff;
+}
+
+.status-controls .admin-btn[onclick*='streak']::before {
+  background-color: #ff8c00;
+}
+
+.status-controls .admin-btn[onclick*='timeWarning']::before {
+  background-color: #ffd900;
+}
+
+.status-controls .admin-btn[onclick*='bonus']::before {
+  background-color: #b45aff;
+}
+
+.status-controls .admin-btn[onclick*='clearStatus']::before {
+  background-color: #9ca3af;
+}

@@ -1,4 +1,5 @@
-import React from 'react';
+import '../styles/_player-grid.scss';
+
 import { gridDots } from '../config/gridConfig';
 
 const PlayerGrid = () => {

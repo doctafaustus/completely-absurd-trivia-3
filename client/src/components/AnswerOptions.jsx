@@ -1,4 +1,5 @@
-import React from 'react';
+import '../styles/_answer-options.scss';
+
 import { useGameContext } from '../context/GameContext';
 
 const AnswerOptions = () => {

@@ -1,4 +1,5 @@
-import React from 'react';
+import '../styles/_players-section.scss';
+
 import { useGameContext } from '../context/GameContext';
 
 const PlayersSection = () => {

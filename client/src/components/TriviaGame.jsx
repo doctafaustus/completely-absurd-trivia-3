@@ -1,4 +1,3 @@
-import React from 'react';
 import './TriviaGame.scss';
 import ScorePanel from './ScorePanel';
 import StatusBar from './StatusBar';

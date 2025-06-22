@@ -1,4 +1,5 @@
-import React from 'react';
+import '../styles/_admin-panel.scss';
+
 import { useGameContext } from '../context/GameContext';
 
 const AdminPanel = () => {
@@ -104,9 +105,6 @@ const AdminPanel = () => {
               onClick={() => setStatus('bonus')}
             >
               Bonus
-            </button>
-            <button className="admin-btn" onClick={clearStatus}>
-              Hide Status
             </button>
           </div>
         </div>
