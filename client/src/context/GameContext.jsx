@@ -3,6 +3,11 @@ import { statusMessages } from '../config/statusMessages';
 import { questions } from '../config/questionData';
 import { players } from '../config/playerData';
 import { triggerConfetti } from '../utils/confettiEffect';
+import {
+  playScoreSound,
+  playScoreCountingSound,
+  preloadSounds,
+} from '../utils/soundUtils';
 
 const GameContext = createContext();
 
@@ -35,12 +40,26 @@ export const GameProvider = ({ children }) => {
   const [incorrectTimeout, setIncorrectTimeout] = useState(null);
   const [celebrationTimeout, setCelebrationTimeout] = useState(null);
 
+  // Score animation state
+  const [isAnimatingScore, setIsAnimatingScore] = useState(false);
+  const [scoreAnimationFrom, setScoreAnimationFrom] = useState(0);
+  const [scoreAnimationTo, setScoreAnimationTo] = useState(0);
+  const [showPointsAddedAnimation, setShowPointsAddedAnimation] =
+    useState(false);
+  const [pointsAddedPosition, setPointsAddedPosition] = useState({
+    x: 0,
+    y: 0,
+  });
+
   // Stats
   const [gameStats, setGameStats] = useState({
     rank: '7/43',
     score: 1345,
     accuracy: 50,
   });
+
+  // Updated player data with animated score
+  const [updatedPlayers, setUpdatedPlayers] = useState(players);
 
   const startTimer = () => {
     setTimerRunning(true);
@@ -63,6 +82,52 @@ export const GameProvider = ({ children }) => {
     setStatus('waiting');
   };
 
+  // Function to update player score with animation
+  const updatePlayerScore = (playerIndex, pointsToAdd) => {
+    const player = updatedPlayers[playerIndex];
+    const oldScore = player.score;
+    const newScore = oldScore + pointsToAdd;
+
+    // Set animation state for this player
+    if (playerIndex === 0) {
+      // Only animate player one for now
+      setScoreAnimationFrom(oldScore);
+      setScoreAnimationTo(newScore);
+      setIsAnimatingScore(true);
+
+      // Play the counting sound (point_tally.mp3)
+      setTimeout(() => {
+        // Play the counting sound (point_tally.mp3) after delay
+        playScoreCountingSound();
+      }, 500);
+
+      // Update game stats score with animation
+      setGameStats((prev) => ({
+        ...prev,
+        score: prev.score + pointsToAdd,
+      }));
+
+      // Show the floating points added animation
+      setShowPointsAddedAnimation(true);
+
+      // After animation completes
+      setTimeout(() => {
+        setIsAnimatingScore(false);
+        setShowPointsAddedAnimation(false);
+      }, 1700); // Match our animation duration (should match your MP3 length)
+    }
+
+    // Update the player's actual score
+    setUpdatedPlayers((prev) => {
+      const newPlayers = [...prev];
+      newPlayers[playerIndex] = {
+        ...newPlayers[playerIndex],
+        score: newScore,
+      };
+      return newPlayers;
+    });
+  };
+
   const triggerCorrectAnimation = () => {
     // Clear any existing timeout first
     if (celebrationTimeout) {
@@ -79,6 +144,12 @@ export const GameProvider = ({ children }) => {
     setIsP1Celebrating(true);
     triggerConfetti();
     setStatus('correct');
+
+    // Play initial correct sound
+    playScoreSound();
+
+    // Add points (150) with animation
+    updatePlayerScore(0, 150);
 
     // Set new timeout and store its reference
     const newTimeout = setTimeout(() => {
@@ -170,6 +241,11 @@ export const GameProvider = ({ children }) => {
     setStatus('waiting');
   };
 
+  // Set the position for the floating points animation
+  const setPointsAddedAnimationPosition = (x, y) => {
+    setPointsAddedPosition({ x, y });
+  };
+
   // Typewriter effect for questions
   useEffect(() => {
     const currentQuestion = questions[currentQuestionIndex].text;
@@ -223,6 +299,14 @@ export const GameProvider = ({ children }) => {
     }
   }, [timerExpired]);
 
+  // Initialize updatedPlayers from players on first render
+  useEffect(() => {
+    setUpdatedPlayers(players);
+
+    // Preload sound effects when the component mounts
+    preloadSounds();
+  }, []);
+
   // Game control functions
   const selectQuestion = (questionIndex) => {
     setCurrentQuestionIndex(questionIndex);
@@ -266,7 +350,7 @@ export const GameProvider = ({ children }) => {
     isP1Celebrating,
     isP1Incorrect,
     gameStats,
-    players,
+    players: updatedPlayers, // Using our updated players with animated scores
     questions,
     correctAnswer,
     showAnswerResult,
@@ -274,6 +358,13 @@ export const GameProvider = ({ children }) => {
     timerRunning,
     timerExpired,
     setTimerExpired,
+
+    // Score animation state
+    isAnimatingScore,
+    scoreAnimationFrom,
+    scoreAnimationTo,
+    showPointsAddedAnimation,
+    pointsAddedPosition,
 
     // Functions
     setStatus,
@@ -286,6 +377,8 @@ export const GameProvider = ({ children }) => {
     resetAnswers,
     startTimer,
     resetTimer,
+    updatePlayerScore,
+    setPointsAddedAnimationPosition,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

@@ -1,0 +1,78 @@
+// _score-animation.scss
+// Add this file to your styles directory
+
+.animated-score {
+  display: inline-block;
+  color: #ffcc00;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+  position: relative;
+  isolation: isolate; // Contain visual effects
+
+  // Glow effect during animation - contained to just this element
+  &::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: radial-gradient(
+      circle,
+      rgba(255, 204, 0, 0.3) 0%,
+      rgba(255, 204, 0, 0) 70%
+    );
+    border-radius: 50%;
+    z-index: -1;
+    animation: pulse 0.5s infinite alternate;
+    pointer-events: none;
+  }
+}
+
+// Keep animations in place
+@keyframes pulse {
+  from {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+// Create a separate stacking context for the +150 animation
+.points-added {
+  position: fixed; // Use fixed to avoid affecting other elements
+  color: #ffcc00;
+  font-weight: bold;
+  font-size: 1.2rem;
+  animation: points-added 1.7s forwards;
+  text-shadow: 0 0 10px rgba(255, 204, 0, 0.7), 0 0 5px rgba(255, 204, 0, 0.5);
+  pointer-events: none;
+  // Create a separate stacking context
+  isolation: isolate;
+  z-index: 9999; // Higher z-index to appear on top
+  // Avoid affecting other elements
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+@keyframes points-added {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.2) translateY(-5px);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1) translateY(-15px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1) translateY(-30px);
+  }
+}
