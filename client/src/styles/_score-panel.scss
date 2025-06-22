@@ -80,6 +80,11 @@
     }
   }
 
+  .accuracy-card .card-value {
+    color: #4ecdc4; /* Teal color */
+    text-shadow: 0 0 8px rgba(78, 205, 196, 0.4); /* Matching teal glow */
+  }
+
   .card-label {
     font-size: 10px;
     color: rgba(255, 255, 255, 0.5);
