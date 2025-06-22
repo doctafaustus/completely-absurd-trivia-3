@@ -20,6 +20,10 @@ export const GameProvider = ({ children }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
+  // Timer state
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [timerExpired, setTimerExpired] = useState(false);
+
   // Answer feedback state
   const [correctAnswer, setCorrectAnswer] = useState(3); // Index of correct answer (default to Mercury in first question)
   const [showAnswerResult, setShowAnswerResult] = useState(false);
@@ -37,6 +41,16 @@ export const GameProvider = ({ children }) => {
     score: 1345,
     accuracy: 50,
   });
+
+  const startTimer = () => {
+    setTimerRunning(true);
+  };
+
+  // Function to reset the timer
+  const resetTimer = () => {
+    setTimerRunning(false);
+    setTimerExpired(false);
+  };
 
   // Function to set status
   const setStatus = (type) => {
@@ -196,6 +210,19 @@ export const GameProvider = ({ children }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (timerExpired) {
+      // Logic for handling incorrect answer
+      // For example:
+      // markCurrentAnswerAsIncorrect();
+      // or:
+      // setCurrentStatus('incorrect');
+
+      // Reset timer state
+      setTimerRunning(false);
+    }
+  }, [timerExpired]);
+
   // Game control functions
   const selectQuestion = (questionIndex) => {
     setCurrentQuestionIndex(questionIndex);
@@ -244,6 +271,9 @@ export const GameProvider = ({ children }) => {
     correctAnswer,
     showAnswerResult,
     playerOneAnswerState,
+    timerRunning,
+    timerExpired,
+    setTimerExpired,
 
     // Functions
     setStatus,
@@ -254,6 +284,8 @@ export const GameProvider = ({ children }) => {
     handleAnswerSelect,
     evaluateAnswer,
     resetAnswers,
+    startTimer,
+    resetTimer,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

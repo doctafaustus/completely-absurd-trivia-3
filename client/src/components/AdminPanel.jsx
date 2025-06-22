@@ -10,10 +10,21 @@ const AdminPanel = () => {
     setStatus,
     clearStatus,
     evaluateAnswer,
-    triggerCorrectAnimation,
-    triggerIncorrectAnimation,
     resetAnswers,
+    startTimer,
+    resetTimer,
   } = useGameContext();
+
+  const handleQuestionSelect = (questionIndex) => {
+    console.log('⏱ Resetting timer...');
+    resetTimer();
+    selectQuestion(questionIndex);
+
+    setTimeout(() => {
+      console.log('▶️ Starting timer...');
+      startTimer();
+    }, 500);
+  };
 
   return (
     <div className="admin-panel">
@@ -26,7 +37,7 @@ const AdminPanel = () => {
             className={`admin-btn ${
               currentQuestionIndex === 0 ? 'active' : ''
             }`}
-            onClick={() => selectQuestion(0)}
+            onClick={() => handleQuestionSelect(0)}
           >
             Q1
           </button>
@@ -34,7 +45,7 @@ const AdminPanel = () => {
             className={`admin-btn ${
               currentQuestionIndex === 1 ? 'active' : ''
             }`}
-            onClick={() => selectQuestion(1)}
+            onClick={() => handleQuestionSelect(1)}
           >
             Q2
           </button>
@@ -42,17 +53,26 @@ const AdminPanel = () => {
             className={`admin-btn ${
               currentQuestionIndex === 2 ? 'active' : ''
             }`}
-            onClick={() => selectQuestion(2)}
+            onClick={() => handleQuestionSelect(2)}
           >
             Q3
           </button>
           <button
             className="admin-btn evaluate-btn"
-            onClick={() => evaluateAnswer()}
+            onClick={() => {
+              evaluateAnswer();
+              resetTimer(); // Stop the timer when evaluating
+            }}
           >
             🔍 Evaluate Answer
           </button>
-          <button className="admin-btn reset-btn" onClick={resetAnswers}>
+          <button
+            className="admin-btn reset-btn"
+            onClick={() => {
+              resetAnswers();
+              resetTimer(); // Reset timer when answers are reset
+            }}
+          >
             🔄 Reset Answers
           </button>
         </div>

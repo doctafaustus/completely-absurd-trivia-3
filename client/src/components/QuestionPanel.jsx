@@ -11,11 +11,10 @@ const QuestionPanel = () => {
     displayedText,
     timerRunning,
     setTimerExpired,
-    questionDuration = 15, // This would come from your GameContext if available
+    questionDuration = 8,
   } = useGameContext();
 
   const handleTimeUp = () => {
-    // Call your game context method to handle time expiration
     if (setTimerExpired) {
       setTimerExpired(true);
     }
