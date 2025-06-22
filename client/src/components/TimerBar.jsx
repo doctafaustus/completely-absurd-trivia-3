@@ -16,9 +16,10 @@ const TimerBar = ({
     let interval = null;
 
     if (isRunning && timeRemaining > 0) {
+      // For smoother animation, decrease interval frequency and adjustment size
       interval = setInterval(() => {
         setTimeRemaining((prevTime) => {
-          const newTime = prevTime - 0.1;
+          const newTime = prevTime - 0.05; // Smaller increment
           if (newTime <= 0) {
             clearInterval(interval);
             onTimeUp();
@@ -26,7 +27,7 @@ const TimerBar = ({
           }
           return newTime;
         });
-      }, 100); // Update every 100ms for smoother animation
+      }, 50); // Update more frequently with smaller changes
     } else if (!isRunning) {
       clearInterval(interval);
     }
