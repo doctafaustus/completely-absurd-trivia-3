@@ -3,7 +3,7 @@ import ScorePanel from './ScorePanel';
 import StatusBar from './StatusBar';
 import AdminPanel from './AdminPanel';
 import PlayersSection from './PlayersSection';
-import QuestionDisplay from './QuestionDisplay';
+import QuestionPanel from './QuestionPanel';
 import PlayerGrid from './PlayerGrid';
 import AnswerOptions from './AnswerOptions';
 import { GameProvider, useGameContext } from '../context/GameContext';
@@ -32,7 +32,7 @@ const TriviaGameContent = () => {
         <StatusBar type={statusType} message={statusMessage} />
 
         <div className="main-content">
-          <QuestionDisplay />
+          <QuestionPanel />
           <PlayerGrid />
         </div>
 
