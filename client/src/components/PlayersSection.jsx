@@ -20,6 +20,17 @@ const PlayersSection = () => {
             ? `player-${playerOneAnswerState}`
             : '';
 
+        const headerStyle =
+          index === 2
+            ? {
+                backgroundImage:
+                  "url('https://i.ibb.co/yn35DtCV/Screenshot-20.jpg')",
+                backgroundSize: 'contain',
+                backgroundPosition: 'center right',
+                backgroundRepeat: 'no-repeat',
+              }
+            : {};
+
         return (
           <div
             key={player.name}
@@ -27,7 +38,7 @@ const PlayersSection = () => {
               index === 0 && hasAnswered ? 'answered' : ''
             } ${stateClass}`}
           >
-            <div className="player-header">
+            <div className="player-header" style={headerStyle}>
               <div className="player-name">{player.name}</div>
               <div className="rank-badge">{player.rank}</div>
             </div>
