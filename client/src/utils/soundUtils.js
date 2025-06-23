@@ -6,7 +6,7 @@ let tallySound = null;
 export const initSounds = () => {
   if (!scoreSound) {
     // For the initial "correct" sound (you might want to add a separate MP3 for this)
-    scoreSound = new Audio('/correct_answer.mp3');
+    scoreSound = new Audio('/correct.mp3');
     scoreSound.volume = 0.5;
   }
 
